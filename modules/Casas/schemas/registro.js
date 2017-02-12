@@ -3,7 +3,6 @@
 const Schema = require('mongoose').Schema;
 
 const _schema_registro = {
-  casa_id: Number,
   tensao: Number,
   corrente: Number,
   tensao_rms: Number,

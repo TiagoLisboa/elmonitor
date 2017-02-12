@@ -4,7 +4,8 @@ const Schema = require('mongoose').Schema;
 const registroSchema = require('./registro');
 
 const _schema_casa = {
-  proprietario: String,
+  proprietario: {type: String, required: true},
+  login: {type: String, required: true, unique: true},
   registros: [registroSchema]
 }
 
