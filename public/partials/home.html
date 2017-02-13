@@ -1,1 +1,39 @@
+<div class="home">
+  <header class="container-fluid">
+    <div class="row">
+      <div class="col-xs-1">
+        <figure>
+          <img src="http://placehold.it/300x300" alt="">
+        </figure>
+      </div>
 
+      <div class="col-xs-3 col-xs-offset-8 user-box">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-6 user-name">
+              <a href="">{{ Home.user.name }}</a>
+            </div>
+            <figure class='col-xs-6 user-img'>
+              <img src="http://placehold.it/300x300" alt="">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="active"><a href="#">Consumo</a></li>
+          <li role="presentation"><a href="#">Tensão</a></li>
+          <li role="presentation"><a href="#">Corrente</a></li>
+          <li role="presentation"><a href="#">Potência</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div class="gray-bg">
+    <highchart id="chart-live" config="chartConfig" style="width: 100%;"></highchart>
+  </div>
+</div>

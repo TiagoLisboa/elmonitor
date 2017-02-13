@@ -1,4 +1,4 @@
-var app = angular.module("elmonitor", ['ngRoute'])
+var app = angular.module("elmonitor", ['ngRoute', 'highcharts-ng'])
   .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     // $locationProvider.html5Mode(true);
     $routeProvider
@@ -10,7 +10,8 @@ var app = angular.module("elmonitor", ['ngRoute'])
       .when('/home',
         {
           templateUrl: 'partials/home.html',
-          controller: 'HomeController'
+          controller: 'HomeController',
+          controllerAs: 'Home'
         })
       .otherwise({'redirectTo':'/home'});
   }]);

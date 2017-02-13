@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('novo:server');
 var http = require('http');
 
+
 /**
  * Get port from environment and store in Express.
  */
@@ -20,6 +21,16 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+  setInterval(function () {
+    var x = (new Date()).getTime(), // current time
+    y = Math.random();
+    socket.emit('random', {x, y});
+  }, 1000);
+
+});
 
 /**
  * Listen on provided port, on all network interfaces.
