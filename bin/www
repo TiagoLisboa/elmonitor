@@ -21,7 +21,8 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var io = require('socket.io')(server);
+var io = require('./../socket.io/config')(server);
+
 
 io.on('connection', function(socket){
   setInterval(function () {
@@ -31,6 +32,7 @@ io.on('connection', function(socket){
   }, 1000);
 
 });
+
 
 /**
  * Listen on provided port, on all network interfaces.

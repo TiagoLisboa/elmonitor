@@ -32,6 +32,11 @@ const routes = [
     method: 'delete',
     path: '/:id',
     action: Actions.remover
+  },
+  {
+    method: 'post',
+    path: '/login',
+    action: Actions.login
   }
 ];
 

@@ -1,9 +1,14 @@
-app.controller('HomeController', function ($scope) {
+app.controller('HomeController', function ($scope, $location, session) {
   var vm = this;
   vm.user = {};
-  vm.user.name = 'Fulano';
+  vm.user.name = session.getUsuario().proprietario;
 
-  $scope.chartConfig = {
+  vm.logoff = function () {
+    session.close();
+    $location.path("/login");
+  }
+
+  vm.chartConfig = {
     chart: {
       type: 'spline',
       // animation: Highcharts.svg, // don't animate in old IE
@@ -60,7 +65,7 @@ app.controller('HomeController', function ($scope) {
           x: time + i * 1000,
           y: Math.random()
         });
-        for (i = -2; i <= 0; i += 1) {
+        for (i = -19; i <= 0; i += 1) {
           data.push({
             x: time + i * 1000,
             y: Math.random()

@@ -12,6 +12,7 @@
           <div class="row">
             <div class="col-xs-6 user-name">
               <a href="">{{ Home.user.name }}</a>
+              <a href="" ng-click="Home.logoff()">logoff</a>
             </div>
             <figure class='col-xs-6 user-img'>
               <img src="http://placehold.it/300x300" alt="">
@@ -34,6 +35,6 @@
   </header>
 
   <div class="gray-bg">
-    <highchart id="chart-live" config="chartConfig" style="width: 100%;"></highchart>
+    <highchart id="chart-live" config="Home.chartConfig" style="width: 100%;"></highchart>
   </div>
 </div>

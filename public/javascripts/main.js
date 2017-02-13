@@ -1,11 +1,12 @@
-var app = angular.module("elmonitor", ['ngRoute', 'highcharts-ng'])
+var app = angular.module("elmonitor", ['ngCookies', 'ngRoute', 'highcharts-ng'])
   .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     // $locationProvider.html5Mode(true);
     $routeProvider
       .when('/login',
         {
           templateUrl: 'partials/login.html',
-          controller: 'LoginController'
+          controller: 'LoginController',
+          controllerAs: 'Login'
         })
       .when('/home',
         {
@@ -15,3 +16,14 @@ var app = angular.module("elmonitor", ['ngRoute', 'highcharts-ng'])
         })
       .otherwise({'redirectTo':'/home'});
   }]);
+
+app.run(['$rootScope', '$location', 'session', function ($rootScope, $location, session) {
+  $rootScope.$on("$locationChangeStart", function(event, next, current) {
+    console.log(session.getUsuarioAuten());
+    if (!session.getUsuarioAuten() && $location.path().indexOf('/login') < 0) {
+      console.log("oii");
+      event.preventDefault();
+      $location.path("/login");
+    }
+  });
+}]);

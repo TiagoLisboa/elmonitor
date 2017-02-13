@@ -23,6 +23,13 @@ Actions.consultar = (req, res) => {
   })
 }
 
+Actions.login = (req, res) => {
+  const query = {login: req.body.login, senha: req.body.senha};
+  CasasModel.findOne(query, (err, data) => {
+    callback(err, data, res);
+  })
+}
+
 Actions.alterar = (req, res) => {
   const query = {_id: req.params.id};
   const body = req.body;
