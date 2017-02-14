@@ -21,17 +21,9 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var io = require('./../socket.io/config')(server);
 
-
-io.on('connection', function(socket){
-  setInterval(function () {
-    var x = (new Date()).getTime(), // current time
-    y = Math.random();
-    socket.emit('random', {x, y});
-  }, 1000);
-
-});
+var io     = app.io
+io.attach( server );
 
 
 /**

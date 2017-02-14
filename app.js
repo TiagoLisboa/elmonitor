@@ -14,6 +14,9 @@ const users = require('./routes/users');
 const CasasAPI = require('./modules/Casas');
 
 const app = express();
+var io = require('./socket.io/config');
+
+app.io = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
