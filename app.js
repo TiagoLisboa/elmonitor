@@ -11,12 +11,13 @@ const cors = require('cors');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-const CasasAPI = require('./modules/Casas');
 
 const app = express();
-var io = require('./socket.io/config');
+var {io, updateData} = require('./socket.io/config');
 
 app.io = io;
+
+const CasasAPI = require('./modules/Casas')(updateData);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

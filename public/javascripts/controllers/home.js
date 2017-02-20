@@ -45,6 +45,10 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
   }
 
   var dbRegistros, dbIndice;
+  socket.emit('ack', session.getUsuario()._id);
+  socket.on("update-ack", function () {
+    socket.emit('update-ask', {_id: session.getUsuario()._id, indice: dbIndice});
+  })
 
   function drawChart () {
     $http.get('http://localhost:3000/api/casas/' + session.getUsuario()._id).then(function (res) {
@@ -69,7 +73,7 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
                 dbRegistros = msg;
 
               });
-              socket.emit('update-data', {_id: session.getUsuario()._id, indice: dbIndice});
+              // socket.emit('update-data', {_id: session.getUsuario()._id, indice: dbIndice});
 
             }
           }

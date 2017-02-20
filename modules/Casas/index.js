@@ -1,12 +1,14 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
+module.exports = (updateData) => {
+  const express = require('express');
+  const router = express.Router();
 
-const routes = require ('./routes');
+  const routes = require ('./routes')(updateData);
 
-routes.forEach((route, index) => {
-  router[route.method](route.path, route.action);
-});
+  routes.forEach((route, index) => {
+    router[route.method](route.path, route.action);
+  });
 
-module.exports = router;
+  return router
+};

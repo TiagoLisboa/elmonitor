@@ -8,19 +8,33 @@ const find = (query, indice, socket) => {
   });
 }
 var interval;
+
+var clientes = []
+
 io.on('connection', function(socket){
-  socket.on('update-data', function (data) {
-    interval = setInterval(function () {
+  socket.on('ack', function (data) {
+    clientes.push({
+      cliId: data,
+      socId: socket.id
+    });
+  });
+  socket.on('update-ask', function (data) {
       var query = {_id: data._id};
       find(query, data.indice, socket);
-    }, 1000);
-
   });
 
   socket.on('disconnect', () => {
+    clientes = clientes.filter((item) => { return item.socId != socket.id })
     clearInterval(interval);
   });
 
 });
 
-module.exports = io;
+updateData = function (idCli) {
+  var cliente = clientes.filter((item) => {return item.cliId == idCli})[0];
+  if (cliente) {
+    io.sockets.connected[cliente.socId].emit('update-ack')
+  }
+}
+
+module.exports = {io, updateData};
