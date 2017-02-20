@@ -1,4 +1,4 @@
-'user scripts';
+'use strict';
 
 const CasasModel = require('./model');
 
@@ -19,7 +19,18 @@ Actions.listar = (req, res) => {
 Actions.consultar = (req, res) => {
   const query = {_id: req.params.id};
   CasasModel.findOne(query, (err, data) => {
-    callback(err, data, res);
+    if (data.registros.length > 20) {
+      var old = data.registros;
+      data.indice = data.registros.length;
+      data.registros = data.registros.slice(-20);
+      data.indice = data.indice - data.registros.length;
+    }
+    var teste = {
+      indice: data.indice,
+      _id: data._id,
+      registros: data.registros
+    }
+    callback(err, teste, res);
   })
 }
 
