@@ -22,17 +22,16 @@ module.exports = (updateData) => {
     const query = {_id: req.params.id};
     CasasModel.findOne(query, (err, data) => {
       if (data.registros.length > 20) {
-        var old = data.registros;
         data.indice = data.registros.length;
         data.registros = data.registros.slice(-20);
         data.indice = data.indice - data.registros.length;
       }
-      var teste = {
+      var payload = {
         indice: data.indice,
         _id: data._id,
         registros: data.registros
       }
-      callback(err, teste, res);
+      callback(err, payload, res);
     })
   }
 
@@ -73,7 +72,10 @@ module.exports = (updateData) => {
 
   Actions.novoRegistro = (req, res) => {
     const query = {_id: req.params.id};
-    const body = req.body;
+    let body = req.body;
+    if (body[0] != undefined) {
+      body = body[0];
+    }
     const mod = {
       $push: {registros: body}
     };
