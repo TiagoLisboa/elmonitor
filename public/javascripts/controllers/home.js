@@ -1,7 +1,18 @@
 app.controller('HomeController', function ($scope, $location, session, $http, $compile) {
   var vm = this;
+	var dicParam = {
+		'Tensão': 'tensao_rms',
+		'Corrente': 'corrente_rms',
+		'Consumo': 'consumo',
+		'Potência Ativa': 'pot_atv',
+		'Potência Aparente': 'pot_apr',
+		'Potência Reativa': 'pot_rea',
+		'Fator de Potência': 'fat_pot'
+	}
   vm.user = {};
   vm.user.name = session.getUsuario().proprietario;
+
+	vm.dia = '';
 
   vm.logoff = function () {
     session.close();
@@ -9,9 +20,15 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
   }
 
   vm.changeDado = function (dado) {
-    vm.dado = dado;
-    drawChart ();
+    // vm.dado = dado == 'corrente' || 'corrente_rms';
+		vm.dado = dado
+		drawChart ();
   }
+
+	vm.mudarDia = function () {
+		console.log(new Date(vm.dia))
+		console.log(new Date())
+	}
 
   vm.dado = 'Tensão';
 
@@ -53,6 +70,7 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
   function drawChart () {
     $http.get('http://localhost:3000/api/casas/' + session.getUsuario()._id).then(function (res) {
       dbRegistros = res.data.registros;
+			console.log(res)
       dbIndice = res.data.indice;
 
       $scope.chartConfig = {
@@ -68,9 +86,10 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
                 var diff = arr_diff(msg, dbRegistros);
                 for (var i = 0; i < diff.length; i++) {
                   var time = (new Date(diff[i].data)).getTime();
-                  series.addPoint([time, diff[i][removerAcentos(vm.dado)]], true, true);
+                  series.addPoint([time, diff[i][dicParam[vm.dado]]], true, true);
                 }
                 dbRegistros = msg;
+								console.log(dbRegistros)
 
               });
               // socket.emit('update-data', {_id: session.getUsuario()._id, indice: dbIndice});
@@ -118,7 +137,7 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
               var time = (new Date(dbRegistros[dbRegistros.length-1+i].data)).getTime();
               data.push({
                 x: time,
-                y: dbRegistros[dbRegistros.length-1+i][removerAcentos(vm.dado)]
+                y: dbRegistros[dbRegistros.length-1+i][dicParam[vm.dado]]
               });
             }
             return data;

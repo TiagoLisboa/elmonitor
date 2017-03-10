@@ -73,6 +73,7 @@ module.exports = (updateData) => {
   Actions.novoRegistro = (req, res) => {
     const query = {_id: req.params.id};
     let body = req.body;
+		console.log(req.params.id, req.body)
     if (body[0] != undefined) {
       body = body[0];
     }

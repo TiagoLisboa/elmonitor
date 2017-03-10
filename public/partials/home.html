@@ -28,8 +28,11 @@
           <li role="presentation" ng-class="{active: Home.dado == 'Consumo'}"><a href="" ng-click="Home.changeDado('Consumo')">Consumo</a></li>
           <li role="presentation" ng-class="{active: Home.dado == 'Tensão'}"><a href="" ng-click="Home.changeDado('Tensão')">Tensão</a></li>
           <li role="presentation" ng-class="{active: Home.dado == 'Corrente'}"><a href="" ng-click="Home.changeDado('Corrente')">Corrente</a></li>
-          <li role="presentation" ng-class="{active: Home.dado == 'Potência'}"><a href="" ng-click="Home.changeDado('Potência')">Potência</a></li>
-        </ul>
+          <li role="presentation" ng-class="{active: Home.dado == 'Potência Ativa'}"><a href="" ng-click="Home.changeDado('Potência Ativa')">Potência Ativa</a></li>
+        <li role="presentation" ng-class="{active: Home.dado == 'Potência Reativa'}"><a href="" ng-click="Home.changeDado('Potência Reativa')">Potência Reativa</a></li>
+				<li role="presentation" ng-class="{active: Home.dado == 'Potência Aparente'}"><a href="" ng-click="Home.changeDado('Potência Aparente')">Potência Aparente</a></li>
+				<li role="presentation" ng-class="{active: Home.dado == 'Fator de Potência'}"><a href="" ng-click="Home.changeDado('Fator de Potência')">Fator de Potência</a></li>
+				</ul>
       </div>
     </div>
   </header>
@@ -37,5 +40,8 @@
   <div class="gray-bg">
     <div id="main-chart"></div>
     <!-- <highchart id="chart-live" config="Home.chartConfig" style="width: 100%;"></highchart> -->
+		<h3>{{ Home.dado }} por data</h3>
+		<label for='dia'>Selecione uma data</label>
+		<input type='date' id='dia' ng-change='Home.mudarDia()' ng-model='Home.dia'/> 
   </div>
 </div>
