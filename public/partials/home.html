@@ -39,9 +39,14 @@
 
   <div class="gray-bg">
     <div id="main-chart"></div>
-    <!-- <highchart id="chart-live" config="Home.chartConfig" style="width: 100%;"></highchart> -->
-		<h3>{{ Home.dado }} por data</h3>
-		<label for='dia'>Selecione uma data</label>
-		<input type='date' id='dia' ng-change='Home.mudarDia()' ng-model='Home.dia'/> 
   </div>
+
+  <div class="container">
+    <div class="row">
+      <h3>{{ Home.dado }} por data</h3>
+  		<label for='dia'>Indique uma data para análise: </label>
+  		<input type='date' id='dia' ng-change='Home.mudarDia()' ng-model='Home.dia'/>
+    </div>
+  </div>
+  <div id="day-chart"></div>
 </div>

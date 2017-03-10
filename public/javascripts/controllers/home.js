@@ -12,7 +12,8 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
   vm.user = {};
   vm.user.name = session.getUsuario().proprietario;
 
-	vm.dia = '';
+	vm.dia = new Date();
+  vm.dia.setDate(vm.dia.getDate() - 1);
 
   vm.logoff = function () {
     session.close();
@@ -22,15 +23,23 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
   vm.changeDado = function (dado) {
     // vm.dado = dado == 'corrente' || 'corrente_rms';
 		vm.dado = dado
-		drawChart ();
+		drawMainChart ();
   }
+
+  vm.registrosDiaSelected = null
 
 	vm.mudarDia = function () {
 		console.log(new Date(vm.dia))
 		console.log(new Date())
+    $http.get('http://localhost:3000/api/casas/registros/' + session.getUsuario()._id + '/' + vm.dia).then(function (res) {
+      vm.registrosDiaSelected = res.data.registros;
+      drawDayChart ();
+    })
 	}
 
-  vm.dado = 'Tensão';
+  vm.mudarDia();
+
+  vm.dado = 'Consumo';
 
   var socket = io();
 
@@ -67,13 +76,79 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
     socket.emit('update-ask', {_id: session.getUsuario()._id, indice: dbIndice});
   })
 
-  function drawChart () {
+  function drawDayChart () {
+    $scope.dayChartConfig = {
+      chart: {
+        type: 'spline',
+        // animation: Highcharts.svg, // don't animate in old IE
+        marginRight: 10,
+        events: {
+          load: function () {
+
+          }
+        }
+      },
+      title: {
+        text: vm.dado + ' no dia ' + vm.dia.getDate() + '/' + vm.dia.getMonth() + "/" + vm.dia.getFullYear()
+      },
+      xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150
+      },
+      yAxis: {
+        title: {
+          text: 'Value'
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }]
+      },
+      tooltip: {
+        formatter: function () {
+          return '<b>' + this.series.name + '</b><br/>' +
+          Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+          Highcharts.numberFormat(this.y, 2);
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      series: [{
+        name: 'Random data',
+        data: (function () {
+          // generate an array of random data
+          var data = [],
+          i;
+          for (i = -vm.registrosDiaSelected.length+1; i <= 0; i += 1) {
+            var time = (new Date(vm.registrosDiaSelected[vm.registrosDiaSelected.length-1+i].data)).getTime();
+            data.push({
+              x: time,
+              y: vm.registrosDiaSelected[vm.registrosDiaSelected.length-1+i][dicParam[vm.dado]]
+            });
+          }
+          return data;
+        }())
+      }]
+    };
+
+    $('#day-chart').empty();
+    $('#day-chart').append($compile("<highchart id='chart-live' config='dayChartConfig' style='width: 95%;'></highchart>")($scope));
+  }
+
+  function drawMainChart () {
     $http.get('http://localhost:3000/api/casas/' + session.getUsuario()._id).then(function (res) {
+
+      drawDayChart ();
       dbRegistros = res.data.registros;
 			console.log(res)
       dbIndice = res.data.indice;
 
-      $scope.chartConfig = {
+      $scope.mainChartConfig = {
         chart: {
           type: 'spline',
           // animation: Highcharts.svg, // don't animate in old IE
@@ -89,10 +164,7 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
                   series.addPoint([time, diff[i][dicParam[vm.dado]]], true, true);
                 }
                 dbRegistros = msg;
-								console.log(dbRegistros)
-
               });
-              // socket.emit('update-data', {_id: session.getUsuario()._id, indice: dbIndice});
 
             }
           }
@@ -145,11 +217,11 @@ app.controller('HomeController', function ($scope, $location, session, $http, $c
         }]
       };
       $('#main-chart').empty();
-      $('#main-chart').append($compile("<highchart id='chart-live' config='chartConfig' style='width: 100%;'></highchart>")($scope));
+      $('#main-chart').append($compile("<highchart id='chart-live' config='mainChartConfig' style='width: 95%;'></highchart>")($scope));
     });
   }
 
-drawChart ()
+drawMainChart ()
 
 
 

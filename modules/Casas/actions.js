@@ -73,7 +73,6 @@ module.exports = (updateData) => {
   Actions.novoRegistro = (req, res) => {
     const query = {_id: req.params.id};
     let body = req.body;
-		console.log(req.params.id, req.body)
     if (body[0] != undefined) {
       body = body[0];
     }
@@ -87,6 +86,29 @@ module.exports = (updateData) => {
         updateData(req.params.id);
         return res.json(data);
       }
+    })
+  }
+
+  Actions.listarRegistrosPorDia = (req, res) => {
+    var diaStr = new Date(req.params.dia).toISOString().split('T')[0];
+    var diaIni = new Date(diaStr);
+    var diaFim = new Date(diaStr + 'T23:59:59.999Z')
+    const query = {
+      _id: req.params.id
+    };
+    console.log(diaIni, diaFim);
+    CasasModel.findOne(query, (err, data) => {
+      var data = data;
+      var registros = []
+      for (var i = 0; i < data.registros.length; i++) {
+        if (data.registros[i].data >= diaIni && data.registros[i].data < diaFim) {
+          registros.push(data.registros[i]);
+        }
+      }
+      var payload = {
+        registros: registros
+      }
+      callback(err, payload, res);
     })
   }
 

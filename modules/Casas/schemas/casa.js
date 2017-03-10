@@ -6,7 +6,7 @@ const registroSchema = require('./registro');
 const _schema_casa = {
   proprietario: {type: String, required: true},
   login: {type: String, required: true, unique: true},
-  senha: {type: String, required: true, unique: true},
+  senha: {type: String, required: true},
   registros: [registroSchema]
 }
 

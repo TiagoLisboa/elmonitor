@@ -16,6 +16,11 @@ module.exports = (updateData) => {
       action: Actions.consultar
     },
     {
+      method: 'get',
+      path: '/registros/:id/:dia',
+      action: Actions.listarRegistrosPorDia
+    },
+    {
       method: 'put',
       path: '/:id',
       action: Actions.alterar
