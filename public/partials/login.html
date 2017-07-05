@@ -1,16 +1,18 @@
+
+<hr>
 <div class="container">
 
   <center>
   </center>
 
   <form class="form-signin" ng-model="Login.login" ng-submit="Login.loginHandler()">
-    <img src="http://placehold.it/300x150">
     <h2 class="form-signin-heading">Credenciais</h2>
     <label for="inputEmail" class="sr-only">Email address</label>
     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="Login.login.login">
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" ng-model="Login.login.senha">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <a class="btn btn-link" href="#!/cadastrar">cadastrar</a>
     {{ Login.message }}
   </form>
 

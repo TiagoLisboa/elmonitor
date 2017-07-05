@@ -8,6 +8,12 @@ var app = angular.module("elmonitor", ['ngCookies', 'ngRoute', 'highcharts-ng'])
           controller: 'LoginController',
           controllerAs: 'Login'
         })
+      .when('/cadastrar',
+        {
+          templateUrl: 'partials/cadastra.html',
+          controller: 'CadastroController',
+          controllerAs: 'Cadastro'
+        })
       .when('/home',
         {
           templateUrl: 'partials/home.html',
@@ -20,7 +26,7 @@ var app = angular.module("elmonitor", ['ngCookies', 'ngRoute', 'highcharts-ng'])
 app.run(['$rootScope', '$location', 'session', function ($rootScope, $location, session) {
   $rootScope.$on("$locationChangeStart", function(event, next, current) {
     console.log(session.getUsuarioAuten());
-    if (!session.getUsuarioAuten() && $location.path().indexOf('/login') < 0) {
+    if (!session.getUsuarioAuten() && ($location.path().indexOf('/login') < 0 && $location.path().indexOf('/cadastrar') < 0)) {
       console.log("oii");
       event.preventDefault();
       $location.path("/login");
