@@ -1,7 +1,8 @@
 'use strict';
 
 const mongoose = require("mongoose");
-const dbURI = "mongodb://localhost/elmonitor";
+//const dbURI = "mongodb://localhost/elmonitor";
+const dbURI = "mongodb://mongo/elmonitor";
 
 mongoose.connect(dbURI);
 
