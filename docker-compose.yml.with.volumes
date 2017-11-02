@@ -5,6 +5,8 @@ services:
     image: mongo:3.4.9
     ports:
       - "27017:27017"
+    volumes:
+      - './data:/data/db'
   app:
     build: .
     ports:
