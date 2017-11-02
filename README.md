@@ -9,6 +9,14 @@ Api e cliente de um sistema de monitoramento de parâmetros elétricos
 4. mongo
 
 ## Instalação
+### Com Docker
+
+Se tiver o docker instalado (com o docker-compose) basta, no diretório do projeto executar:
+
+```docker-compose up```
+
+### Manual
+
 1. Instale as dependencias do node com: ``` npm install ```
 2. Instale as dependencias do front-end com: ``` bower install ```
 3. Inicie o projeto com: ``` npm start ```
