@@ -4,14 +4,22 @@ const mongoose = require("mongoose");
 //const dbURI = "mongodb://localhost/elmonitor";
 const dbURI = "mongodb://mongo/elmonitor";
 
-mongoose.connect(dbURI);
+const connect = () => {
+	return mongoose.connect(dbURI, (err) => {
+		if (err) {
+			console.error('Failed to connect at mongo on startup - retrying in 5 sec');
+			setTimeout(connect, 5000)
+		}
+	})
+}
+connect()
 
 mongoose.connection.on("connected", function () {
   console.log("Mongoose default connection connected to " + dbURI);
 });
 
 mongoose.connection.on("error", function (err) {
-  console.log("Mongoose default connection error: " + err);
+  console.error("Mongoose default connection error: ", err);
 });
 
 mongoose.connection.on("open", function () {
@@ -24,7 +32,7 @@ mongoose.connection.on("disconnected", function () {
 
 process.on("SIGINT", function () {
   mongoose.connection.close(function () {
-    console.log("Ma, oii");
+    console.log("Mongoose default connection closed");
     process.exit(0);
   })
 })

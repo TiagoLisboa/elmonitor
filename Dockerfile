@@ -36,7 +36,7 @@ RUN npm install --quiet -g bower gulp \
 
 RUN mkdir -p /usr/src/app
 
-WORKDIR /user/src/app
+WORKDIR /usr/src/app
 
 COPY . .
 
@@ -52,4 +52,6 @@ RUN bower install --config.interactive=false --quiet --allow-root
 
 # Start the server
 # CMD ["gulp"]
-CMD ["node", "bin/www"]]
+
+
+CMD ["node", "bin/www"]

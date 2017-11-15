@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  mongo:
+    image: mongo:3.4.9
+    ports:
+      - "27017:27017"
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo:mongo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://mongo:27017"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
