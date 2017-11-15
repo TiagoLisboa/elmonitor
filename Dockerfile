@@ -48,7 +48,7 @@ RUN npm install --quiet \
   && npm cache clean
 
 # Install client dependencies using bower
-RUN bower install --config.interactive=false --quiet --allow-root
+RUN bower install -allow-root --quiet
 
 # Start the server
 # CMD ["gulp"]
